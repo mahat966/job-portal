@@ -14,3 +14,7 @@ Documentation for cloning a git repository
 6. then comman Php artisan serve command was run using terminal. 
 7. link obtained from using the command http://127.0.0.1:8000  was used to view the welcome page of the new project.
 8. futher to access the app the url was changed to http://127.0.0.1:8000/add-blog where the further application can be accessed
+
+## Created Homepage on Welcome.blade.php
+1.Simple Homepage created
+2.sad
