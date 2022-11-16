@@ -23,6 +23,11 @@
                                 {{ Session::get('blog_created') }}    
                             </div>                                
                             @endif
+                            @if(Session::has('blog_error'))
+                               <div class="alert alert-success" role="alert">
+                                {{ Session::get('blog_error') }}    
+                            </div>                                
+                            @endif
                             <form action="{{ Route('blog.create') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
