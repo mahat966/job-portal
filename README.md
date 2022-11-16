@@ -6,7 +6,7 @@ Documentation for cloning a git repository
 ->merged anup repository to main branch 
 
 ## Instructions to Run Job Portal Application
-1. to order to run my laravel project, i installed versions of php, composer and a local server xampp to run project  
+1. in order to run my laravel project, i installed versions of php, composer and a local server xampp to run project  
 2. opened xampp server and started Apache and MySql for accessing database and server
 3. then opened  http://localhost/phpmyadmin/ where database was created named 'Blog-Crud' then added colum in tables.
 4. the table cloumn then was migarated to database using mirgate
