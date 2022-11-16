@@ -14,12 +14,6 @@ class BlogController extends Controller
 
     public function createBlog(request $request)
     {
-        $validate = $request->validate([
-            'title' => 'required',
-            'body' => 'required'
-            
-        ]);
-
         $blog  = new Blog();
         $blog->title = $request->title;
         $blog->body = $request->body;
@@ -57,4 +51,5 @@ class BlogController extends Controller
         return back()->with('blog_updated','Blog has been updated successfully');
 
     }
+
 }
