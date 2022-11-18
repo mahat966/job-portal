@@ -56,6 +56,7 @@
 
                             <a href="/add-blog" class="btn btn-success">Create New blog</a>
                         </div>
+                        <a href="{{ route('logout') }}" class="btn btn-danger">Log Out</a>
                     </div>
                 </div>
             </div>
