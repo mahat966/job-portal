@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class BlogController extends Controller
 {
+        //control panel
     public function addBlog()
     {
         return view("add-blog");
@@ -14,6 +17,11 @@ class BlogController extends Controller
 
     public function createBlog(request $request)
     {
+        $validate = $request->validate([
+            'title'=>'required',
+            'body'=>'required',
+        ]);
+
         $blog  = new Blog();
         $blog->title = $request->title;
         $blog->body = $request->body;
@@ -23,7 +31,7 @@ class BlogController extends Controller
     }
 
     public function getBlog(){
-        $blogs = Blog::orderBy('id')->get();
+        $blogs = Blog::latest()->paginate(3);
         return view('blogs',compact('blogs'));
     }
 
@@ -44,12 +52,21 @@ class BlogController extends Controller
 
     public function updateBlog(request $request)
     {
+        $validate = $request->validate([
+            'title'=>'required',
+            'body'=>'required',
+        ]);
         $blog  = Blog::find($request->id);
         $blog->title = $request->title;
         $blog->body = $request->body;
         $blog->save();
         return back()->with('blog_updated','Blog has been updated successfully');
 
+    }
+
+    public function dashboard(){
+        $input = ['loggedUserinfo'=>Admin::where('id','=',session('LoggedUser'))->first()];
+        return view('dashboard');
     }
 
 }

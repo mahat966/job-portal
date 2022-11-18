@@ -45,8 +45,15 @@
                                     </td>
                                   </tr>
                                   @endforeach
+
                                 </tbody>
                             </table>
+                            <div class="row">
+                                {!! $blogs->appends(Request::all())->links() !!}
+
+                            </div>
+
+
                             <a href="/add-blog" class="btn btn-success">Create New blog</a>
                         </div>
                     </div>
