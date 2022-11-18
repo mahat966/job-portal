@@ -4,6 +4,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::get('/welcome', function () {
     return view('/');
 });
+Route::group(['middleware' => 'prevent-back-history'],function(){
 
 Route::get('auth/login',[AdminController::class,'login'])->name('login');
 Route::get('auth/register',[AdminController::class,'registerAdmin'])->name('auth.register');
@@ -35,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-blog/{id}', [BlogController::class, 'editBlog']);
     Route::post('/update-blog', [BlogController::class, 'updateBlog'])->name('blog.update');
     Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard');
+});
 });
 
 
