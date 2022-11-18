@@ -17,3 +17,10 @@ Documentation for cloning a git repository
 
 ## Created Homepage on Welcome.blade.php
 1.Simple Homepage created
+
+##Authenticating Users
+1. new controller named AdminController for authentication was created
+2. New Model name Admin.php was created
+3. Existing table users was used to store the users for login credentials
+4. route group was created so that every function in dashboard was ony accessible to logged in users
+
