@@ -55,15 +55,15 @@ class AdminController extends Controller
 
         $userinfo = Admin::where('email','=',$request->email)->first();
         if(!$userinfo){
-                return redirect()->route('auth.login')->with('fail','We do not recognize your email address');
+                return redirect()->route('login')->with('fail','We do not recognize your email address');
 
             }else{
                 //check password
-                if(Hash::check($request->password, $userinfo->password)){
-                    $request->session()->put('LoggedUser', $userinfo->id);
-                    return redirect('/blogs');
+                if(Auth::attempt($validate)){
+                    $request->session()->regenerate();
+                    return redirect()->intended('blogs');
                 }else{                
-                return redirect()->route('/blogs')->with('fail','Invalid Credentials');
+                return redirect()->route('login')->with('fail','Invalid Credentials');
             }
         }
 
