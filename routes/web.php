@@ -24,6 +24,7 @@ Route::get('auth/login',[AdminController::class,'login'])->name('login');
 Route::get('auth/register',[AdminController::class,'registerAdmin'])->name('auth.register');
 Route::post('/auth/save',[AdminController::class,'save'])->name('auth.save');
 Route::post('/auth/check',[AdminController::class,'check'])->name('auth.check');
+route::get('/auth/logout',[AdminController::class,'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/add-blog', [BlogController::class, 'addBlog']);
