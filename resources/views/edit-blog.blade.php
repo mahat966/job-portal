@@ -17,6 +17,15 @@
                         <div class="card-header">
                             Update Blog
                         </div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                             </div>
+                        @endif
                         <div class="card-body">
                             @if(Session::has('blog_updated'))
                                <div class="alert alert-success" role="alert">

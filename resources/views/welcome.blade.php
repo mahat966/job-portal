@@ -122,7 +122,7 @@
         </div>
     </div>
     <div class="col d-flex justify-content-center">
-        <a href="#" class="btn btn-outline-dark" style="margin-top:70px">Load More job Posts</a>
+        <a href="/blogs" class="btn btn-outline-dark" style="margin-top:70px">Load More job Posts</a>
     </div>
 </div><br><br>
 <div style="background-color: #f9f9ff">

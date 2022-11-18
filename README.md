@@ -17,4 +17,3 @@ Documentation for cloning a git repository
 
 ## Created Homepage on Welcome.blade.php
 1.Simple Homepage created
-2.sad
