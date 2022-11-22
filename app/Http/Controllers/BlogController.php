@@ -25,13 +25,14 @@ class BlogController extends Controller
         $blog  = new Blog();
         $blog->title = $request->title;
         $blog->body = $request->body;
+        $blog->user_id = auth()->user()->id;
         $blog->save();
         return back()->with('blog_created','Blog has been created successfully');
 
     }
 
     public function getBlog(){
-        $blogs = Blog::latest()->paginate(3);
+        $blogs = Blog::where('user_id',auth()->user()->id)->paginate(3);
         return view('blogs',compact('blogs'));
     }
 
@@ -47,6 +48,9 @@ class BlogController extends Controller
 
     public function editBlog($id){
         $blog = Blog::find($id);
+        if(auth()->user()->id != $blog->user_id){
+            abort(403);
+        }
         return view('edit-blog',compact('blog'));
     }
 

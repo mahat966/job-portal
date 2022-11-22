@@ -9,8 +9,9 @@
     <title>Document</title>
 </head>
 <body>
-    <section style="padding-top:60px;">
-        <div class="conatiner">
+    @extends('Layout.navbar')
+    @section('content')
+        <div class="container" style="padding-top: 20px">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card" style="width: 70rem">
@@ -38,12 +39,12 @@
                                     <td>{{ $blog->id }}</td>
                                     <td>{{ $blog->title }}</td>
                                     <td>{{ $blog->body }}</td>
-                                    <td>
+                                    <td>                                      
                                         <a href="/blogs/{{ $blog->id }}" class="btn btn-info">Details</a>
                                         <a href="/edit-blog/{{ $blog->id }}" class="btn btn-success">Update </a>
                                         <a href="/delete-blog/{{ $blog->id }}" class="btn btn-danger">Delete</a>
                                     </td>
-                                  </tr>
+                                  </tr>                                                                            
                                   @endforeach
 
                                 </tbody>
@@ -61,7 +62,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    @endsection
     
 </body>
 </html>
