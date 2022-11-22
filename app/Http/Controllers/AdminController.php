@@ -27,11 +27,11 @@ class AdminController extends Controller
 
         ]);
         //insert data into database
-        $users = new User;
-        $users->name = $request->name;
-        $users->email = $request->email;
-        $users->password = Hash::make($request->password);
-        $save = $users->save();
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $save = $user->save();
 
         if($save){
             // return view('auth.register') ->with('success','New user has been created succesfully');
@@ -61,7 +61,7 @@ class AdminController extends Controller
                 //check password
                 if(Auth::attempt($validate)){
                     $request->session()->regenerate();
-                    return redirect()->intended('blogs');
+                    return redirect()->intended('dashboard');
                 }else{                
                 return redirect()->route('login')->with('fail','Invalid Credentials');
             }

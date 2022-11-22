@@ -31,7 +31,7 @@ route::get('/auth/logout',[AdminController::class,'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/add-blog', [BlogController::class, 'addBlog']);
     Route::post('/create-blog', [BlogController::class, 'createBlog'])->name('blog.create');
-    Route::get('/blogs', [BlogController::class, 'getBlog']);
+    Route::get('/blogs', [BlogController::class, 'getBlog'])->name('blogs');
     Route::get('/blogs/{id}', [BlogController::class, 'getBlogById']);
     Route::get('/delete-blog/{id}', [BlogController::class, 'deleteBlog']);
     Route::get('/edit-blog/{id}', [BlogController::class, 'editBlog']);
