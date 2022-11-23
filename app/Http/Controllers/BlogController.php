@@ -72,5 +72,10 @@ class BlogController extends Controller
         $input = ['loggedUserinfo'=>Admin::where('id','=',session('LoggedUser'))->first()];
         return view('dashboard');
     }
+    
+    public function blogHome(){
+         $blogs = Blog::paginate(3);
+         return view('home',compact('blogs'));
+    }
 
 }

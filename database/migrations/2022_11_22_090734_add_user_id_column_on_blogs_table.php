@@ -26,7 +26,7 @@ class AddUserIdColumnOnBlogsTable extends Migration
      */
     public function down()
     {
-        Schema::table('blogs', function($table){
+        Schema::drop(blogs, $table){
             $table->dropForeignId('user_id');
             $table->dropColumn('user_id');
         });
