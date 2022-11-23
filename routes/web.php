@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('/');
-});
+// Route::get('/welcome', function () {
+//     return view('/');
+// });
 Route::group(['middleware' => 'prevent-back-history'],function(){
 
 Route::get('auth/login',[AdminController::class,'login'])->name('login');
@@ -39,6 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard');
 });
 });
+Route::get('/home',[BlogController::class,'blogHome']);
+
+// route::get('/',function(){
+//     return view('blog');
+
+// });
 
 
 
