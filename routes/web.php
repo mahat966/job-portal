@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Illuminate\Support\Facades\Auth;
@@ -40,12 +41,15 @@ Route::middleware('auth')->group(function () {
 });
 });
 Route::get('/home',[BlogController::class,'blogHome']);
+Route::get('/home-blog/{id}',[BlogController::class,'getBlogHome'])->name('home.view');
+// Route::post('/comment-blog',[CommentController::class, 'store'])->name('comments');
 
 // route::get('/',function(){
 //     return view('blog');
 
 // });
-
+//comment route defined here
+Route::post('comments',[CommentController::class,'store']);
 
 
 

@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Symfony\Component\Console\Helper\Table;
 
-class AddUserIdColumnOnBlogsTable extends Migration
+class AddHeaderImgColumnOnBlogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +13,8 @@ class AddUserIdColumnOnBlogsTable extends Migration
      */
     public function up()
     {
-        Schema::table('blogs', function($table){
-            $table->foreignId('user_id')->nullable()->after('id')->constrained();
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->string('header_img');
         });
     }
 
@@ -27,8 +26,7 @@ class AddUserIdColumnOnBlogsTable extends Migration
     public function down()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            $table->dropForeign('user_id');
-            $table->dropColumn('user_id');
+            $table->dropColumn('header_img');
         });
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\Fluent\Concerns\Has;
 
 class BlogController extends Controller
@@ -22,9 +24,17 @@ class BlogController extends Controller
             'body'=>'required',
         ]);
 
+        $fileName = "hello";
+        if($request->hasFile('photo')){
+            $file = $request->file('photo');
+            $fileName = 'company-logo-' .time().$file->getClientOriginalName();
+            Storage::put('public/'.$fileName,file_get_contents($file));
+            
+        };
         $blog  = new Blog();
         $blog->title = $request->title;
         $blog->body = $request->body;
+        $blog->header_img =$fileName;
         $blog->user_id = auth()->user()->id;
         $blog->save();
         return back()->with('blog_created','Blog has been created successfully');
@@ -74,8 +84,14 @@ class BlogController extends Controller
     }
     
     public function blogHome(){
-         $blogs = Blog::paginate(3);
+         $blogs = Blog::paginate(4);
          return view('home',compact('blogs'));
     }
+
+    public function getBlogHome($id){
+        $blog = Blog::where('id',$id)->first();
+        return view('home-blog',compact('blog'));
+    }
+
 
 }

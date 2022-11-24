@@ -34,11 +34,16 @@
                                 {{ Session::get('blog_created') }}    
                             </div>                                
                             @endif
-                            <form action="{{ Route('blog.create') }}" method="POST">
+                            <form action="{{ Route('blog.create') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label for="title">Blog Title</label>
                                     <input type="text" name="title" class="form-control" placeholder="Enter Blog Title"/>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Blog Photo</label>
+                                    <input type="file" name="photo" class="form-control" >
 
                                 </div>
 

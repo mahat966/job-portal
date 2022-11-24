@@ -13,6 +13,9 @@
         <div class="row" style="margin-top:45px">
             <div class="col-md-4 col-md-offset-4">
                 <h4>Login | Custom  Auth</h4><hr>
+                @if (session('Status'))
+                    <h6 class="alert alert-warning mb-3">{{ session('Status') }}</h6>
+                @endif
                 <form action="{{ route('auth.check') }}" method="post">
                     @if (Session::get('fail'))
                     <div class="alert alert-danger">
