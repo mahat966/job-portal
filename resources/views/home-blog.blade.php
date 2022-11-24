@@ -35,7 +35,7 @@
                             Blog Details
                         </div> --}}
                         <div class="card-body">
-                            <h1>{{ $blog->title }}</h1>
+                            <h1 class="text-primary">{{ $blog->title }}</h1>
                             <p>{{ $blog->body }}</p>
                         </div>
                         <div class="comment-area mt-4">
@@ -43,29 +43,35 @@
                             <h6 class="alert alert-warning mb-3">{{ session('Status') }}</h6>
                                 
                             @endif
-                            <div class="car card-body">
-                                <h6 class="card-title">Leave a Comment</h6>
-                                <form action="{{ url('comments') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="blog_id" value="{{ $blog->id }}">
-                                    <textarea name="comment_body" rows="3" class="form-control" required></textarea>
-                                    <button class="btn btn-primary mt-3" type="submit">Submit</button>
-                                </form>
-                            </div>
+                           
+            </div>
+        </div>
+
+        <div class="car card-body">
+            <h6 class="card-title py-3">Leave a Comment</h6>
+            <form action="{{ url('comments') }}" method="POST">
+                @csrf
+                <input type="hidden" name="blog_id" value="{{ $blog->id }}">
+                <textarea name="comment_body" rows="3" class="form-control" required></textarea>
+                <button class="btn btn-primary mt-3" type="submit">Submit</button>
+            </form>
+        </div>
                             @forelse ($blog->comments as $comment)
                                 <div class="card card-body shadow-sm mt-3">
                                     <div class="detail-area">
-                                        <h6 class="user-name mb-1">
+                                        <h6 class="user-name mb-1 text-success">
                                             @if ($comment->user)
                                                 {{ $comment->user->name }}
                                             @endif
-                                            <small class="ms-3 text-primary">Commented on:{{ $comment->created_at->format('y-m-d') }}</small>
+                                            {{-- <small class="ms-3 text-primary">Commented on:{{ $comment->created_at->format('y-m-d') }}</small> --}}
                                         </h6>
-                                        <p class="user-comment mb-1">
+                                        <p class="user-comment mb-1 pt-3">
                                             {!! $comment->comment_body !!}
                                         </p>
+                                        <small class="text-primary" style="float: right">Commented on:{{ $comment->created_at->format('y-m-d') }}</small>
+
                                     </div>
-                                    @if (Auth::check())
+                                    @if (Auth::check() && Auth::id() == $comment->user_id)
                                     <div>
                                         <a href="" class="btn btn-primary">Edit</a>
                                         <a href="" class="btn btn-danger">Delete</a>
@@ -74,12 +80,14 @@
                                     @endif
                                 </div>
                             @empty
+                            <div class="card card-body shadow-sm mt-3">
                                 <h6>No Commnet Yet.</h6>
+                            </div>
                             @endforelse
                         </div>
                     </div>
-                </div>
-            </div>
+                {{-- </div> --}}
+            {{-- </div> --}}
         </div>
     </section>
     
