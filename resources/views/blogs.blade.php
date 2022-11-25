@@ -22,8 +22,16 @@
                             @if(Session::has('blog_deleted'))
                             <div class="alert alert-success" role="alert">
                              {{ Session::get('blog_deleted') }}    
-                         </div>                                
+                         </div>
                          @endif
+
+                         <div class="card-body">
+                            @if(Session::has('Status'))
+                            <div class="alert alert-success" role="alert">
+                             {{ Session::get('Status') }}    
+                         </div>
+                         @endif
+
                             <table class="table table-striped">
                                 <thead>
                                   <tr>

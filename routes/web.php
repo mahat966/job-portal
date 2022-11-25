@@ -29,7 +29,7 @@ Route::post('/auth/save',[AdminController::class,'save'])->name('auth.save');
 Route::post('/auth/check',[AdminController::class,'check'])->name('auth.check');
 route::get('/auth/logout',[AdminController::class,'logout'])->name('logout');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'isAdmins'])->group(function () {
     Route::get('/add-blog', [BlogController::class, 'addBlog']);
     Route::post('/create-blog', [BlogController::class, 'createBlog'])->name('blog.create');
     Route::get('/blogs', [BlogController::class, 'getBlog'])->name('blogs');
@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard');
 });
 });
-Route::get('/home',[BlogController::class,'blogHome']);
+Route::get('/home',[BlogController::class,'blogHome'])->name('home');
 Route::get('/home-blog/{id}',[BlogController::class,'getBlogHome'])->name('home.view');
 // Route::post('/comment-blog',[CommentController::class, 'store'])->name('comments');
 
@@ -50,6 +50,8 @@ Route::get('/home-blog/{id}',[BlogController::class,'getBlogHome'])->name('home.
 // });
 //comment route defined here
 Route::post('comments',[CommentController::class,'store']);
+Route::get('/delete-comment/{id}', [CommentController::class, 'deleteComment']);
+
 
 
 
