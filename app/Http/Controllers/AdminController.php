@@ -35,7 +35,7 @@ class AdminController extends Controller
 
         if($save){
             // return view('auth.register') ->with('success','New user has been created succesfully');
-            return back()->with('success','New user has been created successfully added to database');
+            return redirect()->route('home')->with('success','New user has been created successfully added to database');
         }else{
             return back()->with('fail','something went wrong, try again later');
         }
@@ -61,7 +61,7 @@ class AdminController extends Controller
                 //check password
                 if(Auth::attempt($validate)){
                     $request->session()->regenerate();
-                    return redirect()->intended('dashboard');
+                    return redirect()->intended('blogs')->with('Status','Logged In Successfully');
                 }else{                
                 return redirect()->route('login')->with('fail','Invalid Credentials');
             }
@@ -70,12 +70,18 @@ class AdminController extends Controller
     }
     public function logout(Request $request)
 {
+    // $checkRole = auth()->user()->role_as;
+
     Auth::logout();
  
     $request->session()->invalidate();
  
     $request->session()->regenerateToken();
  
-    return redirect()->route('login');
+    // if($checkRole){
+
+    //     return redirect()->route('home');
+    // }
+    return redirect()->route('home');
 }
 }

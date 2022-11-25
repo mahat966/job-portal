@@ -44,4 +44,8 @@ class CommentController extends Controller
         }
 
     }
+    public function deleteComment($id){
+        Comment::where('id',$id)->delete();
+        return back()->with('comment_deleted','Comment has been deleted successfully');
+    }
 }

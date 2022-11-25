@@ -7,10 +7,14 @@
 </head>
 <body>
   <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="#" class="">Blogs</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <a class="navbar-brand" href="{{ route('home') }}" class="">Blogs</a>
+    @if (Auth::check())
+    
+      <a href="{{ route('logout') }}" class="btn btn-danger">Log Out</a>
+      @else
+      <a href="{{ route('login') }}" class="btn btn-danger">Log In</a>
+
+    @endif
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">

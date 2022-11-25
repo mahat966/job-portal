@@ -16,7 +16,7 @@
             <div class="d-flex justify-content-center">
 
                 <div class="col-md-4 col-md-offset-8">
-                    <h4>Register | Custom  Auth</h4><hr>
+                    <h4>Register | BLOGS</h4><hr>
                     <form action="{{ route('auth.save') }}" method="post">
                         @if (Session::get('success'))
                         <div class="alert alert-success">

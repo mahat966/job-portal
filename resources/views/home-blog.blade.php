@@ -42,8 +42,7 @@
                             @if (session('Status'))
                             <h6 class="alert alert-warning mb-3">{{ session('Status') }}</h6>
                                 
-                            @endif
-                           
+                            @endif                           
             </div>
         </div>
 
@@ -56,6 +55,7 @@
                 <button class="btn btn-primary mt-3" type="submit">Submit</button>
             </form>
         </div>
+        
                             @forelse ($blog->comments as $comment)
                                 <div class="card card-body shadow-sm mt-3">
                                     <div class="detail-area">
@@ -74,7 +74,7 @@
                                     @if (Auth::check() && Auth::id() == $comment->user_id)
                                     <div>
                                         <a href="" class="btn btn-primary">Edit</a>
-                                        <a href="" class="btn btn-danger">Delete</a>
+                                        <a href="/delete-comment/{{ $comment->id }}" class="btn btn-danger">Delete</a>
                                     </div>
                                         
                                     @endif

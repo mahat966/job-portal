@@ -2,6 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddleware;
+use GuzzleHttp\Middleware;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,5 +66,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
+        'isAdmins' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }
