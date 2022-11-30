@@ -45,6 +45,21 @@
                             @endif                           
             </div>
         </div>
+        <br>
+
+        <small class="float-right">
+            <span title="Likes" data-type="like" data-post="{{ $blog->id }}" class="mr-2 btn btn-sm btn-outline-primary d-inline font-weight-bold saveLike" >
+                Like
+                <span class="like-count">{{ $blog->likes() }}</span>
+            </span>
+            <span title="Dislikes" data-type="dislike" data-post="{{ $blog->id }}" class="mr-2 btn btn-sm btn-outline-danger d-inline font-weight-bold saveLike" >
+                Dislike
+                <span class="dislike-count">{{ $blog->dislikes() }}</span>
+            </span>
+            {{-- <h1 id="counter">10</h1> --}}
+                {{-- <button id="like" onclick="liked(event)">like</button>
+                <button id="dislike" onclick="liked(event)">dislike</button> --}}
+        </small>
 
         <div class="car card-body">
             <h6 class="card-title py-3">Leave a Comment</h6>
@@ -73,7 +88,7 @@
                                     </div>
                                     @if (Auth::check() && Auth::id() == $comment->user_id)
                                     <div>
-                                        <a href="" class="btn btn-primary">Edit</a>
+                                        <span title="edit-comment" data-type="edit" data-post="{{ $comment->id }}"class="btn btn-primary edit-comment">Edit</span>
                                         <a href="/delete-comment/{{ $comment->id }}" class="btn btn-danger">Delete</a>
                                     </div>
                                         
@@ -81,7 +96,7 @@
                                 </div>
                             @empty
                             <div class="card card-body shadow-sm mt-3">
-                                <h6>No Commnet Yet.</h6>
+                                <h6>No Comment Yet.</h6>
                             </div>
                             @endforelse
                         </div>
@@ -90,6 +105,116 @@
             {{-- </div> --}}
         </div>
     </section>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).on('click','.saveLike',function(){
+                var _post=$(this).data('post');
+                var _type=$(this).data('type');
+                var vm=$(this);
+
+                $.ajax({
+                    url:"{{ route('like') }}",
+                    type:'post',
+                    dataType:'json',
+                    data:{
+                        post:_post,
+                        type:_type,
+                        _token:"{{ csrf_token() }}"
+                    },
+                    beforeSend:function(){
+                        vm.addClass('disabled');
+                    },
+
+                    // afterSend:function(){
+                    //     vm.addClass('active');
+                    // }
+                    success:function(res){
+                        if(res.status){
+                            vm.removeClass('disabled').addClass('active');
+                            // vm.removeAttr('id');
+                            $("."+'like'+"-count").text(res.like);
+                            $("."+'dislike'+"-count").text(res.dislike);
+
+                        }
+                        else
+                        {
+                            Swal.fire({
+                            icon: 'error',
+                            title: res.message,
+                            showCancelButton: true,
+                            text: 'Please login to Like',
+                            confirmButtonText: "login",
+                            cancelButtonText: 'Cancel',
+                            cancelButtonColor: 'red',
+                            }).then((result) => {
+                                if(result.isConfirmed) {
+                                    window.location = '/auth/login'
+                                }
+                            });
+
+                        }
+                        
+                        
+                    }
+                });
+            });
+            // $(document).on('click','.saveDislike',function(){
+            //     var _post=$(this).data('post');
+            //     var _type=$(this).data('type');
+            //     var vm=$(this);
+
+            //     $.ajax({
+            //         url:"{{ route('dislike') }}",
+            //         type:'post',
+            //         dataType:'json',
+            //         data:{
+            //             post:_post,
+            //             type:_type,
+            //             _token:"{{ csrf_token() }}"
+            //         },
+            //         beforeSend:function(){
+            //             vm.addClass('disabled');
+            //         },
+
+            //         // afterSend:function(){
+            //         //     vm.addClass('active');
+            //         // }
+            //         success:function(res){
+            //             if(res.status){
+            //                 vm.removeClass('disabled').addClass('active');
+            //                 // vm.removeAttr('id');
+            //                 // $("."+'like'+"-count").text(res.like);
+            //                 $("."+'dislike'+"-count").text(res.dislike);
+
+            //             }
+            //             else
+            //             {
+            //                 Swal.fire({
+            //                 icon: 'error',
+            //                 title: res.message,
+            //                 showCancelButton: true,
+            //                 text: 'Please login to Like',
+            //                 confirmButtonText: "login",
+            //                 cancelButtonText: 'Cancel',
+            //                 cancelButtonColor: 'red',
+            //                 }).then((result) => {
+            //                     if(result.isConfirmed) {
+            //                         window.location = '/auth/login'
+            //                     }
+            //                 });
+
+            //             }
+                        
+                        
+            //         }
+            //     });
+            // });
+
+</script>
     
 </body>
 </html>

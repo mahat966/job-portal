@@ -18,4 +18,14 @@ class Blog extends Model
     {
         return $this->belongsTo(User::class,'created-by','id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(LikeDislike::class,'blog_id')->sum('like');
+    }
+
+    public function dislikes()
+    {
+        return $this->hasMany(LikeDislike::class,'blog_id')->sum('dislike');
+    }
 }

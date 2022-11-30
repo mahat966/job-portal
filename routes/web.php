@@ -3,6 +3,7 @@
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeDislikeController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,10 @@ Route::get('/home-blog/{id}',[BlogController::class,'getBlogHome'])->name('home.
 //comment route defined here
 Route::post('comments',[CommentController::class,'store']);
 Route::get('/delete-comment/{id}', [CommentController::class, 'deleteComment']);
+// Route::post('save-like',[LikeDislikeController::class,'save_like'])->name('like');
+Route::post('save-dislike',[LikeDislikeController::class,'save_dislike'])->name('dislike');
+Route::post('save-like',[LikeDislikeController::class,'save_like'])->name('like');
+
 
 
 
