@@ -1,5 +1,6 @@
 <html lang="en">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -31,9 +32,6 @@
 
                 <div class="col-md-6 offset-md-3">
                     <div class="card">
-                        {{-- <div class="card-header">
-                            Blog Details
-                        </div> --}}
                         <div class="card-body">
                             <h1 class="text-primary">{{ $blog->title }}</h1>
                             <p>{{ $blog->body }}</p>
@@ -42,7 +40,11 @@
                             @if (session('Status'))
                             <h6 class="alert alert-warning mb-3">{{ session('Status') }}</h6>
                                 
-                            @endif                           
+                            @endif 
+                            @if (session('status'))
+                            <h6 class="alert alert-warning mb-3">{{ session('status') }}</h6>
+                                
+                            @endif                          
             </div>
         </div>
         <br>
@@ -56,9 +58,6 @@
                 Dislike
                 <span class="dislike-count">{{ $blog->dislikes() }}</span>
             </span>
-            {{-- <h1 id="counter">10</h1> --}}
-                {{-- <button id="like" onclick="liked(event)">like</button>
-                <button id="dislike" onclick="liked(event)">dislike</button> --}}
         </small>
 
         <div class="car card-body">
@@ -72,24 +71,22 @@
         </div>
         
                             @forelse ($blog->comments as $comment)
-                                <div class="card card-body shadow-sm mt-3">
+                                <div class="card card-body shadow-sm mt-3 comment-container">
                                     <div class="detail-area">
                                         <h6 class="user-name mb-1 text-success">
                                             @if ($comment->user)
                                                 {{ $comment->user->name }}
                                             @endif
-                                            {{-- <small class="ms-3 text-primary">Commented on:{{ $comment->created_at->format('y-m-d') }}</small> --}}
                                         </h6>
                                         <p class="user-comment mb-1 pt-3">
                                             {!! $comment->comment_body !!}
                                         </p>
                                         <small class="text-primary" style="float: right">Commented on:{{ $comment->created_at->format('y-m-d') }}</small>
-
                                     </div>
                                     @if (Auth::check() && Auth::id() == $comment->user_id)
                                     <div>
-                                        <span title="edit-comment" data-type="edit" data-post="{{ $comment->id }}"class="btn btn-primary edit-comment">Edit</span>
-                                        <a href="/delete-comment/{{ $comment->id }}" class="btn btn-danger">Delete</a>
+                                        <button type="button" class="btn btn-primary editbtn" value="{{ $comment->id }}">Edit</button>
+                                        <button type="button" value = "{{ $comment->id }}"class="btn btn-danger deleteComment">Delete</button>
                                     </div>
                                         
                                     @endif
@@ -99,18 +96,81 @@
                                 <h6>No Comment Yet.</h6>
                             </div>
                             @endforelse
+
+                            <div class="modal" id="editcmnt" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Edit Comment</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <form action="{{ url('update-comment') }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="cmt_id" id="cmt_id" value="{{ $comment->id }}">
+                                        <textarea name="comment_body" id="CmntBody" rows="3" class="form-control" required></textarea>
+                                        <div class="modal-body">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
                         </div>
                     </div>
-                {{-- </div> --}}
-            {{-- </div> --}}
         </div>
     </section>
 
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 
     <script>
+       
+        $(document).on('click','.editbtn',function(){
+            var cmt_id =$(this).val();
+            $('#editcmnt').modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: "/edit-comment/"+cmt_id,
+                success:function(res){
+                    $('#CmntBody').val(res.Comment.comment_body);
+                    $('#cmt_id').val(re.Comment.cmt_id);
+                }
+            });
+        });
+
+        $(document).on('click','.deleteComment',function(){
+
+            if(confirm('are you sure'))
+            {
+                var thisClicked = $(this);
+                var comment_id = thisClicked.val();
+
+                $.ajax({
+                    type: "POST",
+                    url:"/delete-comment",
+                    data: {
+                        'comment_id': comment_id,
+                        _token:"{{ csrf_token() }}"
+                    },
+                    success: function(res){
+                        if(res.status == 200){
+                            thisClicked.closest('.comment-container').remove();
+                            alert(res.message);
+                        }
+                    }
+                })
+            }
+
+        });
+
         $(document).on('click','.saveLike',function(){
                 var _post=$(this).data('post');
                 var _type=$(this).data('type');
@@ -129,13 +189,9 @@
                         vm.addClass('disabled');
                     },
 
-                    // afterSend:function(){
-                    //     vm.addClass('active');
-                    // }
                     success:function(res){
                         if(res.status){
                             vm.removeClass('disabled').addClass('active');
-                            // vm.removeAttr('id');
                             $("."+'like'+"-count").text(res.like);
                             $("."+'dislike'+"-count").text(res.dislike);
 
@@ -162,58 +218,6 @@
                     }
                 });
             });
-            // $(document).on('click','.saveDislike',function(){
-            //     var _post=$(this).data('post');
-            //     var _type=$(this).data('type');
-            //     var vm=$(this);
-
-            //     $.ajax({
-            //         url:"{{ route('dislike') }}",
-            //         type:'post',
-            //         dataType:'json',
-            //         data:{
-            //             post:_post,
-            //             type:_type,
-            //             _token:"{{ csrf_token() }}"
-            //         },
-            //         beforeSend:function(){
-            //             vm.addClass('disabled');
-            //         },
-
-            //         // afterSend:function(){
-            //         //     vm.addClass('active');
-            //         // }
-            //         success:function(res){
-            //             if(res.status){
-            //                 vm.removeClass('disabled').addClass('active');
-            //                 // vm.removeAttr('id');
-            //                 // $("."+'like'+"-count").text(res.like);
-            //                 $("."+'dislike'+"-count").text(res.dislike);
-
-            //             }
-            //             else
-            //             {
-            //                 Swal.fire({
-            //                 icon: 'error',
-            //                 title: res.message,
-            //                 showCancelButton: true,
-            //                 text: 'Please login to Like',
-            //                 confirmButtonText: "login",
-            //                 cancelButtonText: 'Cancel',
-            //                 cancelButtonColor: 'red',
-            //                 }).then((result) => {
-            //                     if(result.isConfirmed) {
-            //                         window.location = '/auth/login'
-            //                     }
-            //                 });
-
-            //             }
-                        
-                        
-            //         }
-            //     });
-            // });
-
 </script>
     
 </body>

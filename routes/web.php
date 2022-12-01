@@ -8,20 +8,6 @@ use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/welcome', function () {
-//     return view('/');
-// });
 Route::group(['middleware' => 'prevent-back-history'],function(){
 
 Route::get('auth/login',[AdminController::class,'login'])->name('login');
@@ -41,18 +27,19 @@ Route::middleware(['auth', 'isAdmins'])->group(function () {
     Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard');
 });
 });
+
+// user ui route
 Route::get('/home',[BlogController::class,'blogHome'])->name('home');
 Route::get('/home-blog/{id}',[BlogController::class,'getBlogHome'])->name('home.view');
-// Route::post('/comment-blog',[CommentController::class, 'store'])->name('comments');
 
-// route::get('/',function(){
-//     return view('blog');
-
-// });
-//comment route defined here
+// Comments route
 Route::post('comments',[CommentController::class,'store']);
-Route::get('/delete-comment/{id}', [CommentController::class, 'deleteComment']);
-// Route::post('save-like',[LikeDislikeController::class,'save_like'])->name('like');
+Route::post('/delete-comment', [CommentController::class, 'deleteComment'])->name('comment.delete');
+Route::get('/edit-comment/{id}',[CommentController::class,'editComment']);
+Route::put('/update-comment',[CommentController::class,'updateComment']);
+
+
+// like-dislike route
 Route::post('save-dislike',[LikeDislikeController::class,'save_dislike'])->name('dislike');
 Route::post('save-like',[LikeDislikeController::class,'save_like'])->name('like');
 

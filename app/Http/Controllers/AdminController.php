@@ -10,7 +10,6 @@ use Illuminate\Foundation\Auth\User;
 class AdminController extends Controller
 {
     function login(){
-        // dd("hello");
         return view('auth.login');
     }
     public function registerAdmin(){
@@ -18,7 +17,6 @@ class AdminController extends Controller
     }
 
     function save(request $request){
-        // dd($request->all());
         //validate rquests
         $request->validate([
             'name'=>'required',
@@ -34,7 +32,6 @@ class AdminController extends Controller
         $save = $user->save();
 
         if($save){
-            // return view('auth.register') ->with('success','New user has been created succesfully');
             return redirect()->route('home')->with('success','New user has been created successfully added to database');
         }else{
             return back()->with('fail','something went wrong, try again later');
@@ -70,18 +67,10 @@ class AdminController extends Controller
     }
     public function logout(Request $request)
 {
-    // $checkRole = auth()->user()->role_as;
 
     Auth::logout();
- 
     $request->session()->invalidate();
- 
     $request->session()->regenerateToken();
- 
-    // if($checkRole){
-
-    //     return redirect()->route('home');
-    // }
     return redirect()->route('home');
 }
 }

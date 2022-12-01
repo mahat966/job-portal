@@ -44,9 +44,30 @@ class CommentController extends Controller
         }
 
     }
-    public function deleteComment($id){
-        Comment::where('id',$id)->delete();
-        return back()->with('comment_deleted','Comment has been deleted successfully');
+
+    public function deleteComment(request $request)
+    {
+        $comment = Comment::where('id', $request->comment_id)->where('user_id', auth()->user()->id)->first();
+        $comment->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'success Deleted Comment'
+            ]);
     }
-    
+
+    public function editComment($id){
+        $comment = Comment::find($id);
+        return response()->json([
+            'status'=>200,
+            'Comment'=>$comment,
+        ]);      
+    }
+
+    public function updateComment(Request $request){
+        $comnt_id = $request->input('cmt_id');
+        $comment = Comment::find($comnt_id);
+        $comment->comment_body = $request->input('comment_body');
+        $comment->update();
+        return redirect()->back()->with('status','Comment updated Successfully');
+    }
 }

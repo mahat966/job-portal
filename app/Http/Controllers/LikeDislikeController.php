@@ -58,33 +58,5 @@ class LikeDislikeController extends Controller
 
 
     }
-
-    // public function save_dislike(request $request)
-    // {
-    //     if (!Auth::check())
-    //     {
-    //         return response()->json([
-    //             "status" => false,
-    //             "message" => "User Not Logged In"
-    //         ]);
-    //     }
-
-    //     $dislikeCheck = LikeDislike::where('blog_id', $request->post)->where('user_id', auth()->user()->id)->first();
-    //     if($request->type == "dislike" && $dislikeCheck){
-    //         $dislikeCheck->dislike = !$dislikeCheck->dislike;
-    //         $dislikeCheck->save();
-             
-    //      }else{
-    //      $dislikeCheck= new LikeDislike;
-    //      $dislikeCheck->blog_id = $request->post;
-    //      $dislikeCheck->user_id = auth()->user()->id;
-    //      $dislikeCheck->dislike = 1;
-    //      $dislikeCheck->save();
-    //      }
-
-    //      return response()->json([
-    //         'status'=>true,
-    //         'dislike' => $dislikeCheck->blog->dislikes()
-    //     ]);
-    // }
 }
+    
