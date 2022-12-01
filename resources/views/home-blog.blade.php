@@ -97,6 +97,7 @@
                             </div>
                             @endforelse
 
+                            @foreach ($blog->comments as $comm)
                             <div class="modal" id="editcmnt" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
@@ -120,7 +121,8 @@
                                   </div>
                                 </div>
                               </div>
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
         </div>
     </section>
