@@ -62,7 +62,7 @@ class CommentController extends Controller
             'Comment'=>$comment,
         ]);      
     }
-
+    
     public function updateComment(Request $request){
         $comnt_id = $request->input('cmt_id');
         $comment = Comment::find($comnt_id);

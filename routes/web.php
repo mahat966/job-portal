@@ -38,7 +38,6 @@ Route::post('/delete-comment', [CommentController::class, 'deleteComment'])->nam
 Route::get('/edit-comment/{id}',[CommentController::class,'editComment']);
 Route::put('/update-comment',[CommentController::class,'updateComment']);
 
-
 // like-dislike route
 Route::post('save-dislike',[LikeDislikeController::class,'save_dislike'])->name('dislike');
 Route::post('save-like',[LikeDislikeController::class,'save_like'])->name('like');
