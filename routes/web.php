@@ -3,7 +3,9 @@
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentReplyController;
 use App\Http\Controllers\LikeDislikeController;
+use App\Models\CommentReply;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +39,9 @@ Route::post('comments',[CommentController::class,'store']);
 Route::post('/delete-comment', [CommentController::class, 'deleteComment'])->name('comment.delete');
 Route::get('/edit-comment/{id}',[CommentController::class,'editComment']);
 Route::put('/update-comment',[CommentController::class,'updateComment']);
+Route::post('replies',[CommentReplyController::class,'storeReply']);
+Route::post('/delete-reply', [CommentReplyController::class, 'deleteReply'])->name('reply.delete');
+
 
 // like-dislike route
 Route::post('save-dislike',[LikeDislikeController::class,'save_dislike'])->name('dislike');

@@ -41,4 +41,19 @@ class User extends Authenticatable
     public function like () {
         return $this->hasOne(LikeDislike::class, 'user_id');
     }
+    
+
+    public function blog()
+    {
+        return $this->hasMany(Blog::class);
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function replies()
+    {
+        return $this->hasMany(CommentReply::class);
+    }
 }

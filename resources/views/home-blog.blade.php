@@ -88,8 +88,23 @@
                                         <button type="button" class="btn btn-primary editbtn" value="{{ $comment->id }}">Edit</button>
                                         <button type="button" value = "{{ $comment->id }}"class="btn btn-danger deleteComment">Delete</button>
                                     </div>
-                                        
                                     @endif
+                                    @foreach ($comment->replies as $reply)
+                                        <p>
+                                            {!! $reply->reply_text !!}
+                                        </p>
+                                        <div>
+                                        <button type="button" value = "{{ $reply->id }}"class="btn btn-danger" id="delete-reply">Delete</button>
+                                    </div>
+                                    @endforeach
+                                    <div>
+                                        <form action="{{ url('replies') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="comment_id" value="{{ $comment->id }}">
+                                            <textarea name="reply_text" class="form-control" required></textarea>
+                                            <button class="btn btn-info mt-3">Reply</button>
+                                        </form>
+                                    </div>
                                 </div>
                             @empty
                             <div class="card card-body shadow-sm mt-3">
@@ -172,6 +187,30 @@
             }
 
         });
+        $(document).on('click','#delete-reply',function(){
+
+            if(confirm('are you sure'))
+            {
+                var thisClicked = $(this);
+                var comment_id = thisClicked.val();
+
+                $.ajax({
+                    type: "POST",
+                    url:"/delete-reply",
+                    data: {
+                        'comment_id': comment_id,
+                        _token:"{{ csrf_token() }}"
+                    },
+                    success: function(res){
+                        if(res.status == 200){
+                            thisClicked.remove();
+                            alert(res.message);
+                        }
+                    }
+                })
+            }
+
+});
 
         $(document).on('click','.saveLike',function(){
                 var _post=$(this).data('post');

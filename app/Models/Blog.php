@@ -28,4 +28,9 @@ class Blog extends Model
     {
         return $this->hasMany(LikeDislike::class,'blog_id')->sum('dislike');
     }
+
+    public function replies()
+    {
+        return $this->hasMany(CommentReplyController::class);
+    }
 }
